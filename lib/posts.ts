@@ -10,6 +10,39 @@ export interface Post {
   description: string;
   date: string;
   published: boolean;
+  content: string;
+}
+
+export function getPost(slug: string): Post | null {
+  if (!fs.existsSync(postsDirectory)) {
+    return null;
+  }
+
+  const filePath = path.join(postsDirectory, `${slug}.md`);
+
+  if (!fs.existsSync(filePath)) {
+    return null;
+  }
+
+  const fileContents = fs.readFileSync(filePath, "utf-8");
+  const { data, content } = matter(fileContents);
+
+  const rawDate = data.date;
+  const dateStr =
+    rawDate instanceof Date
+      ? rawDate.toISOString().split("T")[0]
+      : typeof rawDate === "string"
+        ? rawDate
+        : String(rawDate ?? "");
+
+  return {
+    slug,
+    title: data.title ?? slug,
+    description: data.description ?? "",
+    date: dateStr,
+    published: data.published ?? true,
+    content,
+  };
 }
 
 export function getPosts(): Post[] {
@@ -23,26 +56,20 @@ export function getPosts(): Post[] {
     .filter((fileName) => fileName.endsWith(".md"))
     .map((fileName) => {
       const slug = fileName.replace(/\.md$/, "");
-      const filePath = path.join(postsDirectory, fileName);
-      const fileContents = fs.readFileSync(filePath, "utf-8");
-      const { data } = matter(fileContents);
+      const post = getPost(slug);
 
-      const rawDate = data.date;
-      const dateStr =
-        rawDate instanceof Date
-          ? rawDate.toISOString().split("T")[0]
-          : typeof rawDate === "string"
-            ? rawDate
-            : String(rawDate ?? "");
+      if (!post) return null;
 
       return {
-        slug,
-        title: data.title ?? slug,
-        description: data.description ?? "",
-        date: dateStr,
-        published: data.published ?? true,
+        slug: post.slug,
+        title: post.title,
+        description: post.description,
+        date: post.date,
+        published: post.published,
+        content: post.content,
       };
     })
+    .filter((post): post is Post => post !== null)
     .filter((post) => post.published)
     .sort((a, b) => {
       if (a.date > b.date) return -1;

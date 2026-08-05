@@ -8,9 +8,17 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center bg-zinc-50 dark:bg-black">
       <div className="w-full max-w-3xl px-16 py-32">
-        <h1 className="mb-8 text-3xl font-semibold tracking-tight text-black dark:text-zinc-50">
-          Posts
-        </h1>
+        <div className="mb-8 flex items-center justify-between">
+          <h1 className="text-3xl font-semibold tracking-tight text-black dark:text-zinc-50">
+            Posts
+          </h1>
+          <a
+            href="/admin"
+            className="text-sm text-blue-600 underline-offset-4 hover:underline dark:text-blue-400"
+          >
+            Administrar →
+          </a>
+        </div>
 
         {posts.length === 0 ? (
           <p className="text-lg text-zinc-600 dark:text-zinc-400">
