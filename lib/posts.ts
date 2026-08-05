@@ -27,11 +27,19 @@ export function getPosts(): Post[] {
       const fileContents = fs.readFileSync(filePath, "utf-8");
       const { data } = matter(fileContents);
 
+      const rawDate = data.date;
+      const dateStr =
+        rawDate instanceof Date
+          ? rawDate.toISOString().split("T")[0]
+          : typeof rawDate === "string"
+            ? rawDate
+            : String(rawDate ?? "");
+
       return {
         slug,
         title: data.title ?? slug,
         description: data.description ?? "",
-        date: data.date instanceof Date ? data.date.toISOString().split("T")[0] : String(data.date ?? ""),
+        date: dateStr,
         published: data.published ?? true,
       };
     })

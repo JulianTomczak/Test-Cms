@@ -87,7 +87,12 @@ export async function listPosts(): Promise<PostMeta[]> {
           const matterResult = matter(content);
 
           const rawDate = (matterResult.data as Record<string, unknown>).date;
-          const dateStr = rawDate instanceof Date ? rawDate.toISOString().split("T")[0] : String(rawDate ?? "");
+          const dateStr =
+            rawDate instanceof Date
+              ? rawDate.toISOString().split("T")[0]
+              : typeof rawDate === "string"
+                ? rawDate
+                : String(rawDate ?? "");
 
           return {
             slug,
