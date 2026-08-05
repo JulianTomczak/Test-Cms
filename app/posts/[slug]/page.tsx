@@ -9,13 +9,18 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function PostPage({ params }: { params: { slug: string } }) {
-  const post = getPost(params.slug);
+export default async function PostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const post = getPost(slug);
 
   if (!post) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-zinc-50 dark:bg-black">
-        <div className="w-full max-w-2xl px-16 py-32">
+      <main className="flex flex-1 flex-col items-center justify-center bg-zinc-50 dark:bg-black">
+        <div className="w-full max-w-2xl px-16 py-12">
           <h1 className="text-2xl font-semibold text-black dark:text-zinc-50">
             Post no encontrado
           </h1>
@@ -31,13 +36,13 @@ export default function PostPage({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center bg-zinc-50 dark:bg-black">
-      <div className="w-full max-w-2xl px-16 py-32">
+    <main className="flex flex-1 flex-col items-center bg-zinc-50 dark:bg-black">
+      <div className="w-full max-w-2xl px-16 py-12">
         <a
-          href="/admin"
+          href="/"
           className="mb-8 inline-block text-sm text-blue-600 underline-offset-4 hover:underline dark:text-blue-400"
         >
-          &larr; Volver al panel
+          &larr; Volver a los posts
         </a>
 
         <article>

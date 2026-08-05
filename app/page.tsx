@@ -6,19 +6,11 @@ export default function Home() {
   const posts = getPosts();
 
   return (
-    <main className="flex min-h-screen flex-col items-center bg-zinc-50 dark:bg-black">
-      <div className="w-full max-w-3xl px-16 py-32">
-        <div className="mb-8 flex items-center justify-between">
-          <h1 className="text-3xl font-semibold tracking-tight text-black dark:text-zinc-50">
-            Posts
-          </h1>
-          <a
-            href="/admin"
-            className="text-sm text-blue-600 underline-offset-4 hover:underline dark:text-blue-400"
-          >
-            Administrar →
-          </a>
-        </div>
+    <main className="flex flex-1 flex-col items-center bg-zinc-50 dark:bg-black">
+      <div className="w-full max-w-3xl px-16 py-12">
+        <h1 className="mb-8 text-3xl font-semibold tracking-tight text-black dark:text-zinc-50">
+          Posts
+        </h1>
 
         {posts.length === 0 ? (
           <p className="text-lg text-zinc-600 dark:text-zinc-400">
@@ -29,7 +21,7 @@ export default function Home() {
             {posts.map((post) => (
               <li
                 key={post.slug}
-                className="flex flex-col gap-1 rounded-lg bg-white px-5 py-4 shadow-sm dark:bg-zinc-900"
+                className="flex flex-col gap-1 rounded-lg bg-white px-5 py-4 shadow-sm transition-shadow hover:shadow-md dark:bg-zinc-900"
               >
                 <a
                   href={`/posts/${post.slug}`}

@@ -79,7 +79,7 @@ export default function AdminPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center bg-zinc-50 p-8 dark:bg-black">
+    <main className="flex flex-1 flex-col items-center bg-zinc-50 p-8 dark:bg-black">
       <div className="w-full max-w-2xl">
         <h1 className="mb-8 text-2xl font-semibold text-black dark:text-zinc-50">
           Crear artículo
