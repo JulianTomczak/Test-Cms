@@ -31,7 +31,7 @@ export function getPosts(): Post[] {
         slug,
         title: data.title ?? slug,
         description: data.description ?? "",
-        date: data.date ?? "",
+        date: data.date instanceof Date ? data.date.toISOString().split("T")[0] : String(data.date ?? ""),
         published: data.published ?? true,
       };
     })
